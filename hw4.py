@@ -14,7 +14,30 @@ class LinkedList:
     nextChange(after_node.next, Node(new_value, after_node.next), self.head)
   def addNodeBefore(self, new_value, before_node):
     nextChange(before_node, Node(new_value, before_node), self.head)
-  
+  def removeNode(self, node_to_remove):
+    nextChange(node_to_remove, node_to_remove.next, self.head)
+#  def removeNodeByValue(self, value):
+#    if self.head == value:
+#      self.head = self.head.next
+#    deletionHelper(value, self.head)
+  def __str__(self):
+    return printll(self.head)
+    
+def printll(start, text = "["):
+  if start.next == None:
+    text += str(start.value) + "]"
+    return str(text)
+  else:
+    text += str(start.value) + ", "
+    printll(start.next, text)
+def deletionHelper(value, start):
+    if start.next == None:
+      return
+    elif start.next.value == value:
+      start.next = start.next.next
+    else:
+      deletionHelper(value, start = start.next)
+
 def nextChange(old, new, start):
   if NodeEqual(old, start.next):
     start.next = new
