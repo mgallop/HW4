@@ -15,28 +15,41 @@ class LinkedList:
   def addNodeBefore(self, new_value, before_node):
     nextChange(before_node, Node(new_value, before_node), self.head)
   def removeNode(self, node_to_remove):
-    nextChange(node_to_remove, node_to_remove.next, self.head)
-#  def removeNodeByValue(self, value):
-#    if self.head == value:
+    nextChange(node_to_remove, node_to_remove.next, self.head)  
+#Bug if trying to remove head node, for both removal methods
+#    if NodeEqual(node_to_remove, self.head): 
 #      self.head = self.head.next
-#    deletionHelper(value, self.head)
-  def __str__(self):
-    return printll(self.head)
-    
+  def removeNodeByValue(self, value):
+    deletionHelper(value, self.head)
+#  def __str__(self):
+#    printll(self.head)
+
+
+#Biggest Current Issue: Cannot get my recursive functions to return the right stuff
+def listcounter(start, length=0):
+  if start.next == None:
+    printout = length + 1
+    return printout
+  else:
+    length += 1
+    listcounter(start.next, length)
+
 def printll(start, text = "["):
   if start.next == None:
-    text += str(start.value) + "]"
-    return str(text)
+    text += "%d ]" % start.value
+    printout = text
+    return printout
   else:
-    text += str(start.value) + ", "
+    text += "%d, " % start.value
     printll(start.next, text)
 def deletionHelper(value, start):
-    if start.next == None:
-      return
-    elif start.next.value == value:
-      start.next = start.next.next
-    else:
-      deletionHelper(value, start = start.next)
+  if start.next == None:
+    return
+  if start.next.value == value:
+    start.next = start.next.next
+  if start.value == value:
+    start = start.next  
+  deletionHelper(value, start = start.next)
 
 def nextChange(old, new, start):
   if NodeEqual(old, start.next):
