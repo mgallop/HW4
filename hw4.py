@@ -5,30 +5,55 @@ class Node:
   def __str__(self):
     return str(self.value)
     
-class LinkedList:
-  def __init__(self, value):
-    self.head = Node(value, None)
+class LinkedList(Node):
+  def __init__(self, value, next = None):
+	self.value = value
+	self.next = next
   def addNode(self, new_value):
-    nextChange(None, Node(new_value), self.head)
+    self.nextChange(None, Node(new_value))
   def addNodeAfter(self, new_value, after_node):
-    nextChange(after_node.next, Node(new_value, after_node.next), self.head)
+    self.nextChange(after_node.next, Node(new_value, after_node.next))
   def addNodeBefore(self, new_value, before_node):
-    nextChange(before_node, Node(new_value, before_node), self.head)
+    self.nextChange(before_node, Node(new_value, before_node))
   def removeNode(self, node_to_remove):
-    nextChange(node_to_remove, node_to_remove.next, self.head)  
+    if NodeEqual(self, node_to_remove):
+      self = self.next
+      self.removeNode(node_to_remove)
+    else:
+      self.nextChange(node_to_remove, node_to_remove.next)  
 #Bug if trying to remove head node, for both removal methods
 #    if NodeEqual(node_to_remove, self.head): 
 #      self.head = self.head.next
-  def removeNodeByValue(self, value):
-    deletionHelper(value, self.head)
+#  def removeNodeByValue(self, value):
+#    deletionHelper(value, self.head)
 #  def __str__(self):
-#    printll(self.head)
+#    return "Under Construction!"
+#  def length(self):
+  def nextChange(self, old, new):
+    if NodeEqual(old, self.next):
+      self.next = new
+    else:
+      self.next.nextChange(old, new)
 
-
+#  def reverse(self):
+#    self.head = reverser(self.head)
+    
+#def reverser(start):
+#  if start.next == None:
+#    return start
+#  else:
+#    if start.next.next == None:
+#      start.next.next = start
+#      return start.next
+#    else:
+#      start.next.next = start
+#      start.last = start.next
+#      reverser(start.last)
 #Biggest Current Issue: Cannot get my recursive functions to return the right stuff
-def listcounter(start, length=0):
+def listcounter(start, length=1):
   if start.next == None:
     printout = length + 1
+    print length
     return printout
   else:
     length += 1
@@ -51,11 +76,6 @@ def deletionHelper(value, start):
     start = start.next  
   deletionHelper(value, start = start.next)
 
-def nextChange(old, new, start):
-  if NodeEqual(old, start.next):
-    start.next = new
-  else:
-    nextChange(old, new, start.next)
 
 def NodeEqual(node1, node2):
   if node1 == node2 == None: 
