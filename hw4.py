@@ -7,20 +7,29 @@ class Node:
     
 class LinkedList(Node):
   def __init__(self, value, next = None):
-	self.value = value
-	self.next = next
+    self.value = value
+    self.next = next
   def addNode(self, new_value):
-    self.nextChange(None, Node(new_value))
-  def addNodeAfter(self, new_value, after_node):
-    self.nextChange(after_node.next, Node(new_value, after_node.next))
-  def addNodeBefore(self, new_value, before_node):
-    self.nextChange(before_node, Node(new_value, before_node))
-  def removeNode(self, node_to_remove):
-    if NodeEqual(self, node_to_remove):
-      self = self.next
-      self.removeNode(node_to_remove)
+    if self.next == None:
+      self.next = LinkedList(new_value)
     else:
-      self.nextChange(node_to_remove, node_to_remove.next)  
+      self.next.addNode(new_value)
+  def addNodeAfter(self, new_value, after_node):
+    if NodeEqual(self, after_node):
+      self.next = LinkedList(new_value, self.next)
+    else:
+      self.next.addNodeAfter(new_value, after_node)
+  def addNodeBefore(self, new_value, before_node):
+    if NodeEqual(self.next, before_node):
+      self.next = LinkedList(new_value, before_node)
+    else:
+      self.next.addNodeBefore
+#  def removeNode(self, node_to_remove):
+#    if NodeEqual(self, node_to_remove):
+#      self = self.next
+#      self.removeNode(node_to_remove)
+#    else:
+#      self.nextChange(node_to_remove, node_to_remove.next)  
 #Bug if trying to remove head node, for both removal methods
 #    if NodeEqual(node_to_remove, self.head): 
 #      self.head = self.head.next
@@ -29,11 +38,6 @@ class LinkedList(Node):
 #  def __str__(self):
 #    return "Under Construction!"
 #  def length(self):
-  def nextChange(self, old, new):
-    if NodeEqual(old, self.next):
-      self.next = new
-    else:
-      self.next.nextChange(old, new)
 
 #  def reverse(self):
 #    self.head = reverser(self.head)
@@ -58,23 +62,6 @@ def listcounter(start, length=1):
   else:
     length += 1
     listcounter(start.next, length)
-
-def printll(start, text = "["):
-  if start.next == None:
-    text += "%d ]" % start.value
-    printout = text
-    return printout
-  else:
-    text += "%d, " % start.value
-    printll(start.next, text)
-def deletionHelper(value, start):
-  if start.next == None:
-    return
-  if start.next.value == value:
-    start.next = start.next.next
-  if start.value == value:
-    start = start.next  
-  deletionHelper(value, start = start.next)
 
 
 def NodeEqual(node1, node2):
