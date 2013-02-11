@@ -9,39 +9,65 @@ class LinkedList(Node):
   def __init__(self, value, next = None):
     self.value = value
     self.next = next
-  def addNode(self, new_value):
+  def addNode(self, new_value): #class = O(n)
     if self.next == None:
       self.next = LinkedList(new_value)
     else:
       self.next.addNode(new_value)
-  def addNodeAfter(self, new_value, after_node):
+  def addNodeAfter(self, new_value, after_node): #class = O(n)
     if NodeEqual(self, after_node):
       self.next = LinkedList(new_value, self.next)
     else:
       self.next.addNodeAfter(new_value, after_node)
-  def addNodeBefore(self, new_value, before_node):
+  def addNodeBefore(self, new_value, before_node): #buggy
     if NodeEqual(self.next, before_node):
       self.next = LinkedList(new_value, before_node)
     else:
       self.next.addNodeBefore
-#  def removeNode(self, node_to_remove):
-#    if NodeEqual(self, node_to_remove):
-#      self = self.next
-#      self.removeNode(node_to_remove)
-#    else:
-#      self.nextChange(node_to_remove, node_to_remove.next)  
-#Bug if trying to remove head node, for both removal methods
-#    if NodeEqual(node_to_remove, self.head): 
-#      self.head = self.head.next
-#  def removeNodeByValue(self, value):
-#    deletionHelper(value, self.head)
-#  def __str__(self):
-#    return "Under Construction!"
-#  def length(self):
-
+  def length(self):
+    if self.next == None:
+      return 1
+    else:
+      return 1 + self.next.length()
+  def __str__(self):
+    if self.next == None:
+      return "%r" % self.value
+    else:
+      return "%r, " % (self.value) + self.next.__str__()
+  def removeNode(self, node_to_remove): 
+    if NodeEqual(self, node_to_remove) and self.next == None:
+      self.removeList()
+    elif NodeEqual(self, node_to_remove):
+      self.removeInitialNode()
+    elif NodeEqual(self.next, node_to_remove):
+      self.next = self.next.next
+    else:
+      self.next.removeNode(node_to_remove)
+  def removeInitialNode(self):
+    self.value = self.next.value
+    self.next = self.next.next
+  def removeNodeByValue(self, value):
+    if self.next == None and self.value == value:
+      self.removeList()
+    elif self.next == None and self.value != value:
+      return
+    elif self.value == value:
+      self.next.removeNodeByValue(value)
+      self.removeInitialNode()
+    else:
+      if self.next.value == value:
+        self.next = self.next.next
+        self.removeNodeByValue(value)
+      else:
+        self.next.removeNodeByValue(value)
+  def removeList(self):
+    self.next = None
+    self.value = None
 #  def reverse(self):
 #    self.head = reverser(self.head)
-    
+x = LinkedList(0)
+x.removeNodeByValue(0)
+print x
 #def reverser(start):
 #  if start.next == None:
 #    return start
