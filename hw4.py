@@ -9,6 +9,8 @@ class LinkedList(Node):
   def __init__(self, value, next = None):
     self.value = value
     self.next = next
+    self.last = None
+
   def addNode(self, new_value): #class = O(n)
     if self.next == None:
       self.next = LinkedList(new_value)
@@ -66,33 +68,27 @@ class LinkedList(Node):
   def removeList(self):
     self.next = None
     self.value = None
-#  def reverse(self):
-#    self.head = reverser(self.head)
-x = LinkedList(0)
-x.removeNodeByValue(0)
+  def reverse(self):
+    if self.length() == 1:
+      return
+    else:
+      self.lastmaker()
+      y = self.nexttolast()
+      return y
+  def lastmaker(self):
+    if self.next != None:
+      self.next.last = self
+      self.next.lastmaker()   
+  def nexttolast(self):
+    if self.next == None:
+      self.next, self.last = self.last, None
+      return self
+    else:
+      self.next, self.last = self.last, self.next
+      return self.last.nexttolast()
+x = LinkedList(0, LinkedList(1, LinkedList(2, LinkedList(3))))
+#x.reverse()
 print x
-#def reverser(start):
-#  if start.next == None:
-#    return start
-#  else:
-#    if start.next.next == None:
-#      start.next.next = start
-#      return start.next
-#    else:
-#      start.next.next = start
-#      start.last = start.next
-#      reverser(start.last)
-#Biggest Current Issue: Cannot get my recursive functions to return the right stuff
-def listcounter(start, length=1):
-  if start.next == None:
-    printout = length + 1
-    print length
-    return printout
-  else:
-    length += 1
-    listcounter(start.next, length)
-
-
 def NodeEqual(node1, node2):
   if node1 == node2 == None: 
     return True
