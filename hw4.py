@@ -20,7 +20,10 @@ class LinkedList(Node):
     else:
       self.next.addNodeAfter(new_value, after_node)
   def addNodeBefore(self, new_value, before_node): #buggy
-    if NodeEqual(self.next, before_node):
+    if NodeEqual(self, before_node):
+      self.next = LinkedList(self.value, self.next)
+      self.value = new_value
+    elif NodeEqual(self.next, before_node):
       self.next = LinkedList(new_value, before_node)
     else:
       self.next.addNodeBefore
