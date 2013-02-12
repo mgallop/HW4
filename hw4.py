@@ -100,7 +100,9 @@ def NodeEqual(node1, node2):
     return False
   elif node1.value == node2.value and node1.next == node2.next == None:
     return True
-  elif node1.value == node2.value and node1.next.value == node2.next.value:
-    return True
-  else:
+  elif node1.value == node2.value and (node1.next.value == None or node2.next.value == None):
     return False
+  elif node1.value != node2.value:
+    return False
+  else:
+    return True and NodeEqual(node1.next, node2.next)
